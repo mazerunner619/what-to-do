@@ -1,0 +1,10 @@
+POST http://localhost:5000/todo/update HTTP/1.1
+content-type: application/json
+
+{
+    "heading" : "this is wevfiewv euv ne headibg",
+    "description" : "this is a new description",
+    "comments" : "this is a new comment",
+    "status" : "true",
+    "todoid": "627c1e1911d0f85038775f7b" 
+}
