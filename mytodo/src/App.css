@@ -176,6 +176,9 @@ body {
 }
 
 @media screen and (max-width: 450px) {
+  *{
+    font-size: 90%;
+  }
   #comment {
     font-size: smaller;
   }

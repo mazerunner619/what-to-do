@@ -5,7 +5,6 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { useHistory } from 'react-router';
 import $ from 'jquery';
 
-
 export default function Exp({match}) {
   useEffect( ()=> {
     const init = async()=>{
@@ -16,7 +15,7 @@ export default function Exp({match}) {
       }
     }
     init();
-  }, [])
+  }, []);
 
 
     const hist = useHistory();
@@ -24,11 +23,10 @@ export default function Exp({match}) {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
-
     function showPass(){
       $(".pass").attr("type", "text");
     }
-    
+  
     function hidePass(){
       $(".pass").attr("type", "password");
     }

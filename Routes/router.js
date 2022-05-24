@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken')
 router.get('/current' ,async(req, res, next) => {
     try{
         const token = req.cookies.token;
-        if(token){
+        if(token)	
             const verified = jwt.verify(token, process.env.JWT_SECRET_KEY);
             if(verified){
                 const user = await db.User.findById(verified.userId)
@@ -77,7 +77,6 @@ router.post('/login', async(req, res, next) => {
     }
 });
 
-
 //=====================SIGNUP===============
 router.post('/signup', async(req, res, next) => {
     try{
@@ -90,6 +89,7 @@ router.post('/signup', async(req, res, next) => {
                 status : false
             })
         }
+      k
          const userData = {
              username : username,
              password :  await bcrypt.hash(password, 10)
