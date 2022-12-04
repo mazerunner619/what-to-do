@@ -15,7 +15,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use("/", Route);
+app.use("/api", Route);
 
 app.get("/logout", (req, res) => {
   console.log("logged out");
@@ -53,13 +53,12 @@ mongoose.connect(
   }
 );
 
-if (process.env.NODE_ENV == "production") {
-  app.use(express.static("mytodo/build"));
-
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "mytodo", "build", "index.html"));
-  });
-}
+// if (process.env.NODE_ENV == "production") {
+app.use(express.static(path.join(__dirname, "mytodo", "build")));
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "mytodo", "build", "index.html"));
+});
+// }
 
 // app.listen(PORT, () => {
 //   console.log(`Server is running on port:` + PORT);
