@@ -58,6 +58,7 @@ app.use(express.static("mytodo/build"));
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "mytodo", "build", "index.html"));
 });
+
 // }
 
 // app.listen(PORT, () => {
