@@ -54,7 +54,7 @@ mongoose.connect(
 );
 
 // if (process.env.NODE_ENV == "production") {
-app.use(express.static(path.join(__dirname, "mytodo", "build")));
+app.use(express.static("mytodo/build"));
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "mytodo", "build", "index.html"));
 });
