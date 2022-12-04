@@ -14,7 +14,9 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use("/api", Route);
+
+app.use("/", Route);
+
 app.get("/logout", (req, res) => {
   console.log("logged out");
   res
@@ -44,6 +46,9 @@ mongoose.connect(
       console.log(error);
     } else {
       console.log("connected to DB mytodo !");
+      app.listen(PORT, () => {
+        console.log(`Server is running on port:` + PORT);
+      });
     }
   }
 );
@@ -56,6 +61,6 @@ if (process.env.NODE_ENV == "production") {
   });
 }
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port:` + PORT);
-});
+// app.listen(PORT, () => {
+//   console.log(`Server is running on port:` + PORT);
+// });
