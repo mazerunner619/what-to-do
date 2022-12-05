@@ -40,7 +40,6 @@ mongoose.connect(
     useNewUrlParser: true,
     useUnifiedTopology: true,
   },
-
   function (error) {
     if (error) {
       console.log(error);
@@ -54,11 +53,10 @@ mongoose.connect(
 );
 
 // if (process.env.NODE_ENV == "production") {
-app.use(express.static("mytodo/build"));
+app.use(express.static("./mytodo/build"));
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "mytodo", "build", "index.html"));
 });
-
 // }
 
 // app.listen(PORT, () => {
