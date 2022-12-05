@@ -34,6 +34,16 @@ app.use(function (err, req, res, next) {
   });
 });
 
+app.use(express.static(path.join(__dirname, "./mytodo/build")));
+app.get("*", function (_, res) {
+  res.sendFile(
+    path.join(__dirname, "./mytodo/build/index.html"),
+    function (err) {
+      res.status(500).send(err);
+    }
+  );
+});
+
 mongoose.connect(
   process.env.CONN_STRING,
   {
@@ -51,13 +61,3 @@ mongoose.connect(
     }
   }
 );
-
-app.use(express.static(path.join(__dirname, "./mytodo/build")));
-app.get("*", function (_, res) {
-  res.sendFile(
-    path.join(__dirname, "./mytodo/build/index.html"),
-    function (err) {
-      res.status(500).send(err);
-    }
-  );
-});
