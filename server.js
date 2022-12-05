@@ -52,13 +52,12 @@ mongoose.connect(
   }
 );
 
-// if (process.env.NODE_ENV == "production") {
-app.use(express.static("./mytodo/build"));
-app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "mytodo", "build", "index.html"));
+app.use(express.static(path.join(__dirname, "./mytodo/build")));
+app.get("*", function (_, res) {
+  res.sendFile(
+    path.join(__dirname, "./mytodo/build/index.html"),
+    function (err) {
+      res.status(500).send(err);
+    }
+  );
 });
-// }
-
-// app.listen(PORT, () => {
-//   console.log(`Server is running on port:` + PORT);
-// });
