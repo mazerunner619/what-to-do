@@ -48,13 +48,11 @@ mongoose.connect(
     useUnifiedTopology: true,
   },
   function (error) {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log("connected to DB mytodo !");
-      app.listen(PORT, () => {
-        console.log(`Server is running on port:` + PORT);
-      });
-    }
+    if (error) console.log(error);
+    else console.log("connected to DB mytodo !");
   }
 );
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port:` + PORT);
+});

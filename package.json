@@ -3,10 +3,11 @@
   "version": "2.0.0",
   "main": "index.js",
   "scripts": {
-    "server" : "nodemon server.js",
     "start": "node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix mytodo && npm run build --prefix mytodo",
+    "server": "nodemon server.js",
+    "client": "npm start --prefix mytodo",
+    "clientinstall": "npm install --prefix mytodo",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
     "render-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix mytodo && npm run build --prefix mytodo"
   },
   "keywords": [],
@@ -16,20 +17,22 @@
     "bcrypt": "^5.0.1",
     "body-parser": "^1.19.0",
     "cloudinary": "^1.26.3",
+    "concurrently": "^7.6.0",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "dotenv": "^9.0.2",
     "express": "^4.18.1",
     "generate-unique-id": "^2.0.1",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "messagebird": "^3.6.4",
     "mongoose": "^5.13.2",
     "multer": "^1.4.3",
     "node": "^16.5.0",
     "nodemon": "^2.0.13",
+    "npm": "^9.5.0",
     "passport": "^0.6.0",
     "passport-google-oauth20": "^2.0.0",
-    "twilio": "^3.66.1"
+    "twilio": "^4.7.2"
   },
   "description": ""
 }
