@@ -1,12 +1,13 @@
 {
-  "name": "backend",
-  "version": "1.0.0",
+  "name": "wattodoo",
+  "version": "2.0.0",
   "main": "index.js",
   "scripts": {
-    "dev" : "nodemon server.js",
-    "start": "nodemon server.js",
+    "server" : "nodemon server.js",
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix mytodo && npm run build --prefix mytodo"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix mytodo && npm run build --prefix mytodo",
+    "render-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix mytodo && npm run build --prefix mytodo"
   },
   "keywords": [],
   "author": "",
@@ -26,7 +27,7 @@
     "multer": "^1.4.3",
     "node": "^16.5.0",
     "nodemon": "^2.0.13",
-    "passport": "^0.4.1",
+    "passport": "^0.6.0",
     "passport-google-oauth20": "^2.0.0",
     "twilio": "^3.66.1"
   },

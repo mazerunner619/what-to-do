@@ -14,7 +14,9 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+
 app.use("/api", Route);
+
 app.get("/logout", (req, res) => {
   console.log("logged out");
   res
@@ -32,30 +34,27 @@ app.use(function (err, req, res, next) {
   });
 });
 
+if (process.env.NODE_ENV == "production") {
+  app.use(express.static("mytodo/build"));
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "mytodo", "build", "index.html"));
+  });
+}
+
 mongoose.connect(
   process.env.CONN_STRING,
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   },
-
   function (error) {
     if (error) {
       console.log(error);
     } else {
       console.log("connected to DB mytodo !");
+      app.listen(PORT, () => {
+        console.log(`Server is running on port:` + PORT);
+      });
     }
   }
 );
-
-if (process.env.NODE_ENV == "production") {
-  app.use(express.static("mytodo/build"));
-
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "mytodo", "build", "index.html"));
-  });
-}
-
-app.listen(PORT, () => {
-  console.log(`Server is running on port:` + PORT);
-});
