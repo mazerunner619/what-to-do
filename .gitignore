@@ -2,3 +2,4 @@ gitOriginal
 node_modules
 .env
 rest.http
+.nyc_*

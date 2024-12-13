@@ -3,6 +3,7 @@
   "version": "2.0.0",
   "main": "index.js",
   "scripts": {
+    "test": "nyc mocha",
     "start": "node server.js",
     "server": "nodemon server.js",
     "client": "npm start --prefix mytodo",
@@ -34,5 +35,11 @@
     "passport-google-oauth20": "^2.0.0",
     "twilio": "^4.7.2"
   },
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "chai": "^4.3.7",
+    "mocha": "^11.0.1",
+    "nyc": "^17.1.0",
+    "supertest": "^7.0.0"
+  }
 }

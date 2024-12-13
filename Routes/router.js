@@ -14,10 +14,9 @@ router.get("/current", async (req, res, next) => {
       if (verified) {
         const user = await db.User.findById(verified.userId).populate({
           path: "todos",
-          select: "-password",
         });
+
         if (user) {
-          console.log("current user logged in");
           res.json({
             message: user,
             status: true,
@@ -55,11 +54,9 @@ router.get("/current", async (req, res, next) => {
 //==================== LOGIN =============
 router.post("/login", async (req, res, next) => {
   try {
-    console.log("login request", req.body);
     const { username, password } = req.body;
     const user = await db.User.findOne({ username: username });
     if (user) {
-      console.log(user);
       const correctPassword = await bcrypt.compare(password, user.password);
       if (correctPassword) {
         //create jwt authorizatoin
@@ -70,10 +67,9 @@ router.post("/login", async (req, res, next) => {
           process.env.JWT_SECRET_KEY
         );
         //send the token to browser cookie
-        console.log("logged in as " + user.username);
         res.cookie("token", token, { httpOnly: true }).json({
           outcome: true,
-          message: `logged in as ${user.name}`,
+          message: `logged in as ${user.username}`,
           status: true,
         });
       } else
@@ -90,7 +86,7 @@ router.post("/login", async (req, res, next) => {
       });
     }
   } catch (error) {
-    console.log("login error", error);
+    console.log("login error", error.message);
     return next({ message: error.message, status: false });
   }
 });
@@ -98,11 +94,10 @@ router.post("/login", async (req, res, next) => {
 //=====================SIGNUP===============
 router.post("/signup", async (req, res, next) => {
   try {
-    console.log("signup route", req.body);
     const { username, password } = req.body;
     const alreadyExists = await db.User.findOne({ username: username });
     if (alreadyExists) {
-      res.status(200).json({
+      return res.status(200).json({
         message: "username already exists !",
         status: true,
         outcome: false,
@@ -113,8 +108,8 @@ router.post("/signup", async (req, res, next) => {
       password: await bcrypt.hash(password, 10),
     };
 
-    const newUser = await db.User.create(userData);
-    res.status(200).json({
+    await db.User.create(userData);
+    return res.status(200).json({
       message: "Registered successfully",
       status: true,
       outcome: true,
@@ -131,10 +126,7 @@ router.post("/signup", async (req, res, next) => {
 //  add new todo
 router.post("/:userid/todo/add", LoggedInMW, async (req, res, next) => {
   try {
-    console.log("in add new todo route : " + req.body);
     const { userid } = req.params;
-    console.log(userid);
-    console.log(typeof userid);
     const { heading, comments, description } = req.body;
     const newTodo = await db.Todo.create({
       heading,
@@ -144,7 +136,6 @@ router.post("/:userid/todo/add", LoggedInMW, async (req, res, next) => {
     const user = await db.User.findById(userid);
     user.todos.push(newTodo);
     await user.save();
-    console.log("new todo created ", newTodo);
     res
       .status(200)
       .json({ message: "todo added !", status: true, outcome: true });
@@ -177,7 +168,6 @@ router.delete("/:userid/:todoid/delete", LoggedInMW, async (req, res, next) => {
           status: false,
         });
       } else {
-        console.log("deleted todo");
         res.status(200).json({
           message: "deleted successfully !",
           status: true,
@@ -197,7 +187,6 @@ router.post(
   LoggedInMW,
   async (req, res, next) => {
     try {
-      console.log("update request");
       const { todoid } = req.params;
       const { heading, comments, description, status } = req.body;
       await db.Todo.findByIdAndUpdate(
@@ -215,7 +204,6 @@ router.post(
               .status(200)
               .json({ message: err.message, status: true, outcome: false });
           } else {
-            console.log("Updated Todo here");
             res
               .status(200)
               .json({ message: "changes saved", status: true, outcome: true });
