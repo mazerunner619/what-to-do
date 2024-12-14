@@ -19,6 +19,10 @@ jobs:
           cache: 'npm'
           
       - name: Run tests
+        env:
+          CONN_STRING: ${{secrets.CONN_STRING}}
+          JWT_SECRET_KEY: ${{secrets.JWT_SECRET_KEY}}
+          
         run: |
           npm install
           npm test
