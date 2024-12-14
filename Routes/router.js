@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../Models");
-const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const LoggedInMW = require("../auth-middleware");
 
@@ -57,9 +56,8 @@ router.post("/login", async (req, res, next) => {
     const { username, password } = req.body;
     const user = await db.User.findOne({ username: username });
     if (user) {
-      const correctPassword = await bcrypt.compare(password, user.password);
+      const correctPassword = await user.isPasswordCorrect(password);
       if (correctPassword) {
-        //create jwt authorizatoin
         const token = jwt.sign(
           {
             userId: user._id,
@@ -103,12 +101,8 @@ router.post("/signup", async (req, res, next) => {
         outcome: false,
       });
     }
-    const userData = {
-      username: username,
-      password: await bcrypt.hash(password, 10),
-    };
 
-    await db.User.create(userData);
+    await db.User.create({ username, password });
     return res.status(200).json({
       message: "Registered successfully",
       status: true,
