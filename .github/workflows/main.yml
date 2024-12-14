@@ -1,0 +1,32 @@
+name: continouos deployment setup
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with: 
+          node-version: 16.5.0
+          cache: 'npm'
+          
+      - name: Run tests
+        run: |
+          npm install
+          npm test
+          
+      - name: Deploy to server
+        if: github.ref == 'refs/heads/main'
+        env:
+          deploy_url: ${{secrets.RENDER_DEPLOY_HOOK_URL}}
+        run: |
+          echo "Deploying application on render..."
+          curl "$deploy_url"
